@@ -38,7 +38,7 @@ button{padding:15px 32px;border:none;border-radius:50px;font-size:18px}
 <div id="photos">
 <img src="photo1.jpg"><img src="photo2.jpg">
 </div>
-<h1>Happy Birthday Dhanuja 🎂</h1>
+<h1>Happy Birthday Dhanuja 🎉</h1>
 <div class="msg type" id="t1"></div>
 <div class="msg type" id="t2"></div>
 <div class="msg type" id="t3"></div>
@@ -56,7 +56,7 @@ let hearts=[];
 setInterval(()=>hearts.push({x:Math.random()*c.width,y:c.height+20,s:10+Math.random()*20}),200);
 
 function drawHeart(x0,y0,s){
-x.font=s+'px serif'; x.fillText('Party popper',x0,y0);
+x.font=s+'px serif'; x.fillText('🎉❤️',x0,y0);
 }
 function anim(){
 x.clearRect(0,0,c.width,c.height);
@@ -70,7 +70,7 @@ document.getElementById('tree').innerHTML='🎉💐';
 setTimeout(()=>{
 show('p4');
 document.getElementById('bgm').play();
-type("May your life bloom with happiness ✨",'t1',0);
+type("May your life bloom with happiness ❤️",'t1',0);
 type("May every dream find its way to you ✨",'t2',2500);
 type("Wishing you endless smiles and love ❤️",'t3',5000);
 },1800);
