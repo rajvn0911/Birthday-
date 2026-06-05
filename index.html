@@ -1,0 +1,85 @@
+
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dhanuja ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box} body{margin:0;background:#050816;color:#fff;font-family:Poppins;overflow:hidden}
+.page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding:20px}
+.active{display:flex}
+h1{font-family:Great Vibes;font-size:min(16vw,90px);margin:10px}
+button{padding:15px 32px;border:none;border-radius:50px;font-size:18px}
+#canvas{position:absolute;inset:0}
+#photos{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+#photos img{width:220px;height:300px;object-fit:cover;border-radius:25px;box-shadow:0 0 30px rgba(255,255,255,.25)}
+.msg{font-family:Cinzel;font-size:min(6vw,34px);margin:10px}
+.type{border-right:2px solid white;white-space:nowrap;overflow:hidden}
+</style></head><body>
+
+<canvas id="canvas"></canvas>
+
+<div id="p1" class="page active">
+<h1>Dhanuja ❤️</h1>
+<p>A magical birthday surprise is waiting...</p>
+<button onclick="show('p2')">Ready For The Surprise?</button>
+</div>
+
+<div id="p2" class="page">
+<h1>Every smile of yours creates magic ✨</h1>
+<button onclick="show('p3')">Unlock Magic</button>
+</div>
+
+<div id="p3" class="page">
+<h1 style="font-size:60px">Touch The Tree 🌳</h1>
+<div id="tree" style="font-size:180px;cursor:pointer">🌳</div>
+</div>
+
+<div id="p4" class="page">
+<div id="photos">
+<img src="photo1.jpg"><img src="photo2.jpg">
+</div>
+<h1>Happy Birthday Dhanuja 🎂</h1>
+<div class="msg type" id="t1"></div>
+<div class="msg type" id="t2"></div>
+<div class="msg type" id="t3"></div>
+<audio id="bgm" src="bgm.mp3"></audio>
+</div>
+
+<script>
+const pages=[...document.querySelectorAll('.page')];
+function show(id){pages.forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+const c=document.getElementById('canvas'),x=c.getContext('2d');
+function resize(){c.width=innerWidth;c.height=innerHeight} resize(); onresize=resize;
+
+let hearts=[];
+setInterval(()=>hearts.push({x:Math.random()*c.width,y:c.height+20,s:10+Math.random()*20}),200);
+
+function drawHeart(x0,y0,s){
+x.font=s+'px serif'; x.fillText('💖',x0,y0);
+}
+function anim(){
+x.clearRect(0,0,c.width,c.height);
+hearts.forEach(h=>{h.y-=2;drawHeart(h.x,h.y,h.s)});
+hearts=hearts.filter(h=>h.y>-50);
+requestAnimationFrame(anim);
+} anim();
+
+document.getElementById('tree').onclick=()=>{
+document.getElementById('tree').innerHTML='💖';
+setTimeout(()=>{
+show('p4');
+document.getElementById('bgm').play();
+type("May your life bloom with happiness 🌸",'t1',0);
+type("May every dream find its way to you ✨",'t2',2500);
+type("Wishing you endless smiles and love ❤️",'t3',5000);
+},1800);
+};
+
+function type(text,id,delay){
+setTimeout(()=>{
+let i=0,e=document.getElementById(id);
+let t=setInterval(()=>{e.textContent=text.slice(0,++i); if(i>=text.length)clearInterval(t)},60);
+},delay);
+}
+</script></body></html>
