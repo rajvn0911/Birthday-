@@ -1,118 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Birthday Surprise</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <style>
-body{
-    margin:0;
-    overflow:hidden;
-    background:linear-gradient(to bottom,#ffe4ec,#ffd6e8,#fff0f5);
-    font-family:'Cinzel',serif;
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.screen{
-    position:absolute;
-    width:100%;
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
+body{
+width:100vw;
+height:100vh;
+overflow:hidden;
+background:#ffe6ee;
+font-family:'Dancing Script',cursive;
+}
+
+#intro{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+#intro h1{
+color:#d63384;
+font-size:3rem;
+margin-bottom:30px;
+text-align:center;
 }
 
 button{
-    padding:15px 35px;
-    border:none;
-    border-radius:40px;
-    background:#ff5fa2;
-    color:white;
-    font-size:20px;
-    cursor:pointer;
+padding:14px 35px;
+border:none;
+border-radius:50px;
+background:#ff4f93;
+color:white;
+font-size:22px;
+cursor:pointer;
 }
 
-.title{
-    font-family:'Great Vibes',cursive;
-    font-size:70px;
-    color:#d63384;
-    text-align:center;
+#scene{
+display:none;
+position:absolute;
+width:100%;
+height:100%;
+overflow:hidden;
 }
 
-#animationScreen{
-    display:none;
+.ground{
+position:absolute;
+bottom:15%;
+left:10%;
+width:80%;
+height:3px;
+background:white;
 }
 
-svg{
-    width:100%;
-    height:100%;
+#treeContainer{
+position:absolute;
+left:50%;
+bottom:15%;
+transform:translateX(-50%);
 }
 
-#wishes{
-    position:absolute;
-    right:5%;
-    top:25%;
-    font-size:24px;
-    color:#c2185b;
-    line-height:2;
-    opacity:0;
+#trunk{
+width:14px;
+height:0;
+background:#f4a6c1;
+margin:auto;
+border-radius:10px;
+transition:height 4s linear;
 }
 
-.wish{
-    opacity:0;
-    transform:translateX(50px);
-    animation:slideIn 1s forwards;
-}
-
-@keyframes slideIn{
-    to{
-        opacity:1;
-        transform:translateX(0);
-    }
-}
-
-.finalText{
-    position:absolute;
-    bottom:8%;
-    width:100%;
-    text-align:center;
-    font-size:55px;
-    color:#d81b60;
-    font-family:'Great Vibes',cursive;
+#heartArea{
+position:absolute;
+width:280px;
+height:250px;
+left:50%;
+transform:translateX(-50%);
+bottom:180px;
 }
 
 .heart{
-    position:absolute;
-    font-size:20px;
-    animation:floatUp 8s linear infinite;
+position:absolute;
+font-size:12px;
+opacity:0;
+animation:appear 0.8s forwards;
+}
+
+@keyframes appear{
+to{
+opacity:1;
+}
+}
+
+#wishes{
+position:absolute;
+left:8%;
+top:25%;
+color:#b03060;
+font-size:24px;
+line-height:1.9;
+opacity:0;
+transition:2s;
+}
+
+.final{
+position:absolute;
+bottom:8%;
+width:100%;
+text-align:center;
+color:#d63384;
+font-size:38px;
+opacity:0;
+transition:2s;
+}
+
+.floatHeart{
+position:absolute;
+font-size:18px;
+animation:floatUp 8s linear infinite;
 }
 
 @keyframes floatUp{
-    from{
-        transform:translateY(100vh);
-        opacity:1;
-    }
-    to{
-        transform:translateY(-100px);
-        opacity:0;
-    }
+
+0%{
+transform:translateY(100px);
+opacity:0;
 }
+
+20%{
+opacity:1;
+}
+
+100%{
+transform:translateY(-120vh);
+opacity:0;
+}
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="intro" class="screen">
+<div id="intro">
 
-<div class="title">
-A Special Birthday Surprise Awaits You ❤️
-</div>
-
-<br>
+<h1>A Special Birthday Surprise ❤️</h1>
 
 <button onclick="startSurprise()">
 Ready For Surprise?
@@ -120,36 +166,30 @@ Ready For Surprise?
 
 </div>
 
-<div id="animationScreen">
+<div id="scene">
 
-<audio id="bgm" autoplay loop>
+<div class="ground"></div>
+
+<div id="wishes">
+💖 Happy Birthday<br>
+🌸 Stay Happy<br>
+✨ Keep Smiling<br>
+❤️ God Bless You
+</div>
+
+<div id="treeContainer">
+<div id="trunk"></div>
+</div>
+
+<div id="heartArea"></div>
+
+<div class="final">
+🎂 Happy Birthday 🎂
+</div>
+
+<audio id="music" autoplay loop>
 <source src="lovebug.mp3" type="audio/mpeg">
 </audio>
-
-<svg viewBox="0 0 1000 700">
-
-<rect width="1000" height="700" fill="transparent"/>
-
-<line id="trunk"
-x1="500"
-y1="650"
-x2="500"
-y2="650"
-stroke="#8B5A2B"
-stroke-width="18"
-stroke-linecap="round"/>
-
-</svg>
-
-<div id="wishes"></div>
-
-<div class="finalText">
-🎂 Happy Birthday 🎂
-<br>
-<span style="font-size:28px">
-May happiness bloom in your heart every day ❤️
-</span>
-</div>
 
 </div>
 
@@ -158,10 +198,9 @@ May happiness bloom in your heart every day ❤️
 function startSurprise(){
 
 document.getElementById("intro").style.display="none";
-document.getElementById("animationScreen").style.display="block";
+document.getElementById("scene").style.display="block";
 
-let music=document.getElementById("bgm");
-music.play().catch(()=>{});
+document.getElementById("music").play().catch(()=>{});
 
 growTree();
 
@@ -171,98 +210,89 @@ function growTree(){
 
 let trunk=document.getElementById("trunk");
 
-let current=650;
+trunk.style.height="160px";
 
-let interval=setInterval(()=>{
-
-current-=4;
-
-trunk.setAttribute("y2",current);
-
-if(current<=350){
-
-clearInterval(interval);
+setTimeout(()=>{
 
 createHeartTree();
-showWishes();
 
-}
-
-},20);
+},4000);
 
 }
 
 function createHeartTree(){
 
-for(let i=0;i<250;i++){
+const container=document.getElementById("heartArea");
+
+const colors=[
+"#ff1493",
+"#ff69b4",
+"#ffb6c1",
+"#ff8c00",
+"#da70d6",
+"#ff4d6d"
+];
+
+let points=[];
+
+for(let t=0;t<360;t+=2){
+
+let rad=t*Math.PI/180;
+
+let x=16*Math.pow(Math.sin(rad),3);
+
+let y=
+13*Math.cos(rad)
+-5*Math.cos(2*rad)
+-2*Math.cos(3*rad)
+-Math.cos(4*rad);
+
+points.push({
+x:x,
+y:y
+});
+
+}
+
+let index=0;
+
+let timer=setInterval(()=>{
+
+if(index>220){
+
+clearInterval(timer);
+
+document.getElementById("wishes").style.opacity="1";
+document.querySelector(".final").style.opacity="1";
+
+createFloatingHearts();
+
+return;
+}
+
+let p=points[Math.floor(Math.random()*points.length)];
 
 let heart=document.createElement("div");
 
+heart.className="heart";
+
 heart.innerHTML="❤";
-
-heart.style.position="absolute";
-
-let angle=Math.random()*Math.PI*2;
-let r=Math.random()*140;
-
-let x=500 + r*16*Math.pow(Math.sin(angle),3);
-
-let y=250 - r*(13*Math.cos(angle)-5*Math.cos(2*angle)-2*Math.cos(3*angle)-Math.cos(4*angle))/16;
-
-heart.style.left=x+"px";
-heart.style.top=y+"px";
-
-let colors=[
-"#ff1744",
-"#ff4081",
-"#ff80ab",
-"#e91e63",
-"#ba68c8"
-];
 
 heart.style.color=
 colors[Math.floor(Math.random()*colors.length)];
 
+heart.style.left=(140+p.x*8)+"px";
+
+heart.style.top=(100-p.y*8)+"px";
+
 heart.style.fontSize=
-(12+Math.random()*16)+"px";
+(10+Math.random()*10)+"px";
 
-document.body.appendChild(heart);
+container.appendChild(heart);
 
-}
+index++;
 
-createFloatingHearts();
-
-}
-
-function showWishes(){
-
-let wishes=document.getElementById("wishes");
-
-wishes.style.opacity=1;
-
-let texts=[
-"❤️ Happy Birthday",
-"🌸 Stay Beautiful",
-"✨ Keep Smiling",
-"🎂 Dream Big",
-"💖 Shine Bright",
-"🌹 Enjoy Every Moment"
-];
-
-texts.forEach((t,index)=>{
-
-let div=document.createElement("div");
-
-div.className="wish";
-
-div.style.animationDelay=
-(index*1.2)+"s";
-
-div.innerHTML=t;
-
-wishes.appendChild(div);
-
-});
+},40);
 
 }
 
@@ -272,21 +302,23 @@ setInterval(()=>{
 
 let h=document.createElement("div");
 
-h.className="heart";
+h.className="floatHeart";
 
 h.innerHTML="💖";
 
-h.style.left=Math.random()*100+"%";
+h.style.left=Math.random()*100+"vw";
 
-h.style.color=
-["#ff4081","#ff80ab","#e91e63","#ba68c8"]
-[Math.floor(Math.random()*4)];
+h.style.bottom="0";
 
 document.body.appendChild(h);
 
-setTimeout(()=>h.remove(),8000);
+setTimeout(()=>{
 
-},300);
+h.remove();
+
+},8000);
+
+},500);
 
 }
 
