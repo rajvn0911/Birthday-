@@ -4,24 +4,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Surprise</title>
+<title>Birthday Surprise 💖</title>
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Arial',sans-serif;
+    font-family:'Segoe UI',sans-serif;
 }
 
 body{
-    overflow:hidden;
     height:100vh;
-    background:#ffd6e7;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
+    overflow:hidden;
+    background:linear-gradient(
+        135deg,
+        #ffb6d9 0%,
+        #ffd1dc 30%,
+        #b8e4ff 70%,
+        #87cefa 100%
+    );
 }
 
 .screen{
@@ -32,6 +34,7 @@ body{
     flex-direction:column;
     justify-content:center;
     align-items:center;
+    text-align:center;
     padding:20px;
 }
 
@@ -40,47 +43,68 @@ body{
 }
 
 h1{
-    color:#ff4081;
-    font-size:clamp(2rem,6vw,4rem);
+    color:#ffffff;
+    text-shadow:2px 2px 15px rgba(0,0,0,0.2);
+    font-size:clamp(2.2rem,6vw,4.5rem);
 }
 
-p{
-    color:#ff5c9a;
-    margin-top:15px;
-    font-size:clamp(1rem,3vw,1.4rem);
+.typing-box{
+    width:min(90%,700px);
+    color:white;
+    font-size:clamp(1.2rem,3vw,1.8rem);
+    line-height:1.8;
+    white-space:pre-wrap;
+    text-shadow:1px 1px 8px rgba(0,0,0,0.15);
 }
 
 button{
-    margin-top:25px;
-    padding:14px 35px;
+    margin-top:30px;
+    padding:15px 35px;
     border:none;
-    border-radius:40px;
-    background:#ff4081;
-    color:white;
+    border-radius:50px;
+    background:white;
+    color:#ff4f9a;
     font-size:1.1rem;
+    font-weight:bold;
     cursor:pointer;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    transition:0.3s;
 }
 
 button:hover{
-    transform:scale(1.05);
+    transform:scale(1.08);
 }
 
-.birthday{
-    animation:pop 1.2s ease;
+#birthdayText{
+    font-size:clamp(2.5rem,7vw,5rem);
+    color:white;
+    text-shadow:0 0 20px rgba(255,255,255,.7);
 }
 
-@keyframes pop{
+/* Balloons */
+.balloon{
+    position:absolute;
+    bottom:-100px;
+    animation:floatUp linear infinite;
+}
+
+/* Pets */
+.pet{
+    position:absolute;
+    bottom:-100px;
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
     from{
-        transform:scale(.5);
-        opacity:0;
+        transform:translateY(0);
     }
     to{
-        transform:scale(1);
-        opacity:1;
+        transform:translateY(-120vh);
     }
 }
 
+/* Confetti */
 .confetti{
     position:absolute;
     width:10px;
@@ -95,115 +119,159 @@ button:hover{
     }
 }
 
-.pet{
-    position:absolute;
-    bottom:-100px;
-    animation:floatUp linear infinite;
-}
+@media(max-width:768px){
 
-.balloon{
-    position:absolute;
-    bottom:-100px;
-    animation:floatUp linear infinite;
-}
-
-@keyframes floatUp{
-    from{
-        transform:translateY(0);
+    button{
+        width:85%;
+        max-width:280px;
     }
-    to{
-        transform:translateY(-120vh);
+
+    .typing-box{
+        font-size:1.1rem;
     }
 }
 </style>
 </head>
+
 <body>
 
-<!-- Page 1 -->
+<!-- PAGE 1 -->
 <div class="screen" id="page1">
-    <h1>🎁 Small Surprise</h1>
-    <p>Someone special has something for you 💖</p>
-    <button onclick="showPage2()">Open</button>
-</div>
 
-<!-- Page 2 -->
-<div class="screen hidden" id="page2">
     <h1>💝 Ready For A Surprise?</h1>
-    <p>Click below to see your birthday magic ✨</p>
-    <button onclick="showBirthday()">Yes, Show Me!</button>
+
+    <button onclick="openPage2()">
+        Continue ✨
+    </button>
+
 </div>
 
-<!-- Page 3 -->
-<div class="screen hidden birthday" id="page3">
-    <h1>🎂 HAPPY BIRTHDAY 🎉</h1>
+<!-- PAGE 2 -->
+<div class="screen hidden" id="page2">
 
-    <p style="max-width:700px;">
-        Wishing you a day filled with happiness,
-        laughter, love and unforgettable memories.
-        May all your dreams come true! 💖
-    </p>
+    <div id="typingText" class="typing-box"></div>
 
-    <h2 style="margin-top:20px;color:#ff4081;">
-        🌸 Have a Beautiful Birthday 🌸
-    </h2>
+    <button id="surpriseBtn"
+            style="display:none;"
+            onclick="openBirthday()">
+
+        Click For Surprise 🎁
+
+    </button>
+
 </div>
 
+<!-- PAGE 3 -->
+<div class="screen hidden" id="page3">
+
+    <div id="birthdayText"></div>
+
+</div>
+
+<!-- MUSIC -->
 <audio id="music" loop>
     <source src="birthday-song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-function showPage2(){
-    page1.classList.add("hidden");
-    page2.classList.remove("hidden");
+const msg =
+`Unplanned Friendship...
+
+Unexpected Bond...
+
+Right Person...
+
+Right Time...
+
+That's Uhhh ❤️`;
+
+function openPage2(){
+
+    document.getElementById("page1")
+        .classList.add("hidden");
+
+    document.getElementById("page2")
+        .classList.remove("hidden");
+
+    let i = 0;
+
+    function type(){
+
+        if(i < msg.length){
+
+            document.getElementById("typingText")
+                .innerHTML += msg.charAt(i);
+
+            i++;
+
+            setTimeout(type,80);
+
+        }else{
+
+            document.getElementById("surpriseBtn")
+                .style.display="inline-block";
+        }
+    }
+
+    type();
 }
 
-function showBirthday(){
+function openBirthday(){
 
-    page2.classList.add("hidden");
-    page3.classList.remove("hidden");
+    document.getElementById("page2")
+        .classList.add("hidden");
+
+    document.getElementById("page3")
+        .classList.remove("hidden");
 
     document.getElementById("music")
-    .play()
-    .catch(()=>{});
+        .play()
+        .catch(()=>{});
 
-    createConfetti();
     createPets();
     createBalloons();
-}
+    createConfetti();
 
-function createConfetti(){
+    const text = "🎂 HAPPY BIRTHDAY 🎉";
 
-    for(let i=0;i<120;i++){
+    let j = 0;
 
-        let c=document.createElement("div");
-        c.className="confetti";
+    function typeBirthday(){
 
-        c.style.left=Math.random()*100+"vw";
-        c.style.background=
-        `hsl(${Math.random()*360},100%,60%)`;
+        if(j < text.length){
 
-        c.style.animationDuration=
-        (Math.random()*4+3)+"s";
+            document.getElementById("birthdayText")
+                .innerHTML += text.charAt(j);
 
-        document.body.appendChild(c);
+            j++;
+
+            setTimeout(typeBirthday,150);
+        }
     }
+
+    typeBirthday();
 }
+
+/* PETS */
 
 function createPets(){
 
-    let pets=["🐶","🐱","🐕","🐈"];
+    const pets=[
+        "🐶","🐱","🐕","🐈"
+    ];
 
     for(let i=0;i<20;i++){
 
         let pet=document.createElement("div");
 
         pet.className="pet";
+
         pet.innerHTML=
         pets[Math.floor(Math.random()*pets.length)];
 
         pet.style.left=Math.random()*100+"vw";
+
         pet.style.fontSize=
         (Math.random()*20+30)+"px";
 
@@ -214,15 +282,20 @@ function createPets(){
     }
 }
 
+/* BALLOONS */
+
 function createBalloons(){
 
-    let balloons=["🎈","🎈","🎈","💖","✨"];
+    const balloons=[
+        "🎈","🎈","🎈","💖","✨"
+    ];
 
     for(let i=0;i<25;i++){
 
         let b=document.createElement("div");
 
         b.className="balloon";
+
         b.innerHTML=
         balloons[Math.floor(Math.random()*balloons.length)];
 
@@ -235,6 +308,28 @@ function createBalloons(){
         (Math.random()*8+6)+"s";
 
         document.body.appendChild(b);
+    }
+}
+
+/* CONFETTI */
+
+function createConfetti(){
+
+    for(let i=0;i<120;i++){
+
+        let c=document.createElement("div");
+
+        c.className="confetti";
+
+        c.style.left=Math.random()*100+"vw";
+
+        c.style.background=
+        `hsl(${Math.random()*360},100%,60%)`;
+
+        c.style.animationDuration=
+        (Math.random()*4+3)+"s";
+
+        document.body.appendChild(c);
     }
 }
 
