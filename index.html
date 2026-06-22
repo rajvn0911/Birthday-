@@ -7,11 +7,12 @@
 <title>Birthday Surprise 🎉</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&family=Caveat:wght@700&family=Lobster&family=Great+Vibes&display=swap');
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
 }
 
 body{
@@ -53,16 +54,16 @@ button{
     cursor:pointer;
 }
 
-/* typing text */
+/* typing area */
 #text,#birthdayText{
     color:white;
-    font-size:clamp(1.4rem,4vw,2.5rem);
+    font-size:clamp(1.2rem,4vw,2.5rem);
     white-space:pre-wrap;
     text-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
-/* effects */
-.pet,.confetti,.balloon{
+/* floating effects */
+.pet,.confetti{
     position:absolute;
     bottom:-100px;
     animation:floatUp linear infinite;
@@ -82,6 +83,21 @@ button{
 @keyframes fall{
     to{transform:translateY(110vh) rotate(720deg);}
 }
+
+/* letter animation */
+.letter{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(10px);
+    animation:pop 0.3s forwards;
+}
+
+@keyframes pop{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
 </style>
 </head>
 
@@ -96,7 +112,9 @@ button{
 <!-- PAGE 2 -->
 <div class="screen hidden" id="page2">
     <div id="text"></div>
-    <button id="btn2" style="display:none" onclick="showBirthday()">click for surprise 🎁</button>
+    <button id="btn2" style="display:none" onclick="showBirthday()">
+        click for surprise 🎁
+    </button>
 </div>
 
 <!-- PAGE 3 -->
@@ -111,6 +129,32 @@ button{
 
 <script>
 
+const fonts = [
+    "Pacifico",
+    "Dancing Script",
+    "Caveat",
+    "Lobster",
+    "Great Vibes"
+];
+
+const colors = [
+    "#ff4f9a",
+    "#6a5acd",
+    "#ff1493",
+    "#4169e1",
+    "#ffffff"
+];
+
+function randomStyle(){
+    return `
+        font-family:'${fonts[Math.floor(Math.random()*fonts.length)]}',cursive;
+        color:${colors[Math.floor(Math.random()*colors.length)]};
+        font-size:1.8rem;
+        margin:5px;
+    `;
+}
+
+/* PAGE 1 → PAGE 2 */
 function start(){
 
     document.getElementById("music").play().catch(()=>{});
@@ -118,7 +162,7 @@ function start(){
     page1.classList.add("hidden");
     page2.classList.remove("hidden");
 
-    const lines = [
+    const text = [
         "Unplanned Friendship,",
         "Unexpected bond,",
         "Right time,",
@@ -128,40 +172,47 @@ function start(){
 
     let i = 0;
 
-    function typeLines(){
+    function typeLine(){
 
-        if(i < lines.length-1){
+        if(i < text.length){
 
-            text.innerHTML += lines[i] + "\n\n";
-            i++;
-            setTimeout(typeLines,800);
+            let line = document.createElement("div");
+
+            let word = text[i];
+            let j = 0;
+
+            function typeLetters(){
+
+                if(j < word.length){
+
+                    let span = document.createElement("span");
+                    span.className = "letter";
+                    span.style = randomStyle();
+                    span.innerHTML = word.charAt(j);
+
+                    line.appendChild(span);
+
+                    j++;
+                    setTimeout(typeLetters,80);
+
+                }else{
+                    textContainer.appendChild(line);
+                    i++;
+                    setTimeout(typeLine,400);
+                }
+            }
+
+            typeLetters();
 
         }else{
-            typeUhhh(lines[i]);
+            btn2.style.display="inline-block";
         }
     }
 
-    function typeUhhh(word){
-
-        let j = 0;
-        text.innerHTML += "\n";
-
-        function typeChar(){
-            if(j < word.length){
-                text.innerHTML += word.charAt(j);
-                j++;
-                setTimeout(typeChar,120);
-            }else{
-                btn2.style.display="inline-block";
-            }
-        }
-
-        typeChar();
-    }
-
-    typeLines();
+    typeLine();
 }
 
+/* PAGE 2 → PAGE 3 */
 function showBirthday(){
 
     page2.classList.add("hidden");
@@ -169,21 +220,31 @@ function showBirthday(){
 
     createEffects();
 
-    const msg = "So glad you exits.Have a fantastic birthday!";
+    const msg = "So glad you exits. Have a fantastic birthday! 🎈";
     let i = 0;
 
     function type(){
+
         if(i < msg.length){
-            birthdayText.innerHTML += msg.charAt(i);
+
+            let span = document.createElement("span");
+            span.className = "letter";
+            span.style.fontFamily = "Great Vibes";
+            span.style.color = "white";
+            span.style.fontSize = "3rem";
+            span.innerHTML = msg.charAt(i);
+
+            birthdayText.appendChild(span);
+
             i++;
-            setTimeout(type,150);
+            setTimeout(type,120);
         }
     }
 
     type();
 }
 
-/* effects */
+/* EFFECTS */
 function createEffects(){
 
     const emojis=["🐶","🐱","🎈","💖","✨"];
