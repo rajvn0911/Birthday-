@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birthday Surprise 🎉</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-
 <style>
 *{
     margin:0;
@@ -55,16 +53,16 @@ button{
     cursor:pointer;
 }
 
-/* text */
+/* typing text */
 #text,#birthdayText{
     color:white;
-    font-size:clamp(1.5rem,5vw,3rem);
+    font-size:clamp(1.4rem,4vw,2.5rem);
     white-space:pre-wrap;
     text-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
 /* effects */
-.pet,.confetti{
+.pet,.confetti,.balloon{
     position:absolute;
     bottom:-100px;
     animation:floatUp linear infinite;
@@ -91,14 +89,14 @@ button{
 
 <!-- PAGE 1 -->
 <div class="screen" id="page1">
-    <h1>💝 Ready For A Surprise?</h1>
+    <h1>💝 Ready for a surprise?</h1>
     <button onclick="start()">start</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="screen hidden" id="page2">
     <div id="text"></div>
-    <button id="nextBtn" style="display:none" onclick="showBirthday()">click for surprise 🎁</button>
+    <button id="btn2" style="display:none" onclick="showBirthday()">click for surprise 🎁</button>
 </div>
 
 <!-- PAGE 3 -->
@@ -115,28 +113,53 @@ button{
 
 function start(){
 
-    document.getElementById("music")
-        .play()
-        .catch(()=>{});
+    document.getElementById("music").play().catch(()=>{});
 
     page1.classList.add("hidden");
     page2.classList.remove("hidden");
 
-    const msg = "that's uhhh";
+    const lines = [
+        "Unplanned Friendship,",
+        "Unexpected bond,",
+        "Right time,",
+        "Right Person,",
+        "That's Uhhh ❤️"
+    ];
 
     let i = 0;
 
-    function type(){
-        if(i < msg.length){
-            text.innerHTML += msg.charAt(i);
+    function typeLines(){
+
+        if(i < lines.length-1){
+
+            text.innerHTML += lines[i] + "\n\n";
             i++;
-            setTimeout(type,120);
+            setTimeout(typeLines,800);
+
         }else{
-            nextBtn.style.display="inline-block";
+            typeUhhh(lines[i]);
         }
     }
 
-    type();
+    function typeUhhh(word){
+
+        let j = 0;
+        text.innerHTML += "\n";
+
+        function typeChar(){
+            if(j < word.length){
+                text.innerHTML += word.charAt(j);
+                j++;
+                setTimeout(typeChar,120);
+            }else{
+                btn2.style.display="inline-block";
+            }
+        }
+
+        typeChar();
+    }
+
+    typeLines();
 }
 
 function showBirthday(){
@@ -147,24 +170,25 @@ function showBirthday(){
     createEffects();
 
     const msg = "happy birthday";
-    let j = 0;
+    let i = 0;
 
-    function type2(){
-        if(j < msg.length){
-            birthdayText.innerHTML += msg.charAt(j);
-            j++;
-            setTimeout(type2,150);
+    function type(){
+        if(i < msg.length){
+            birthdayText.innerHTML += msg.charAt(i);
+            i++;
+            setTimeout(type,150);
         }
     }
 
-    type2();
+    type();
 }
 
+/* effects */
 function createEffects(){
 
     const emojis=["🐶","🐱","🎈","💖","✨"];
 
-    for(let i=0;i<30;i++){
+    for(let i=0;i<40;i++){
 
         let e=document.createElement("div");
         e.className="pet";
@@ -187,7 +211,6 @@ function createEffects(){
 }
 
 </script>
-    
 
 </body>
 </html>
